@@ -1,12 +1,12 @@
 """
-Script d'entraînement — Dataset Iris (classification multi-classe)
-Produit : model/model.pkl
+Script d'entraînement — Dataset Wine (classification multi-classe)
+Produit : model/model.pkl, model/metrics.json
 """
 
 import os
 import json
 import joblib
-from sklearn.datasets import load_iris
+from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
@@ -16,8 +16,8 @@ from sklearn.pipeline import Pipeline
 
 def train():
     # 1. Charger le dataset
-    iris = load_iris()
-    X, y = iris.data, iris.target
+    wine = load_wine()
+    X, y = wine.data, wine.target
 
     # 2. Split train / test
     X_train, X_test, y_train, y_test = train_test_split(
@@ -45,7 +45,7 @@ def train():
     print(f"F1-score (weighted) : {f1:.4f}")
     print()
     print(classification_report(
-        y_test, y_pred, target_names=iris.target_names
+        y_test, y_pred, target_names=wine.target_names
     ))
 
     # 6. Sauvegarder le modèle

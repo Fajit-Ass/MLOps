@@ -1,8 +1,8 @@
 """
-API FastAPI — Sert le modèle Iris entraîné.
+API FastAPI — Sert le modèle Wine entraîné.
 Endpoints :
   GET  /health   → vérification de santé
-  POST /predict  → prédiction à partir de 4 features
+  POST /predict  → prédiction à partir de 13 features
 """
 
 import joblib
@@ -10,7 +10,7 @@ import numpy as np
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI(title="Iris Prediction API")
+app = FastAPI(title="Wine Prediction API")
 
 # Charger le modèle au démarrage
 MODEL_PATH = "model/model.pkl"
@@ -19,14 +19,23 @@ try:
 except FileNotFoundError:
     model = None
 
-TARGET_NAMES = ["setosa", "versicolor", "virginica"]
+TARGET_NAMES = ["class_0", "class_1", "class_2"]
 
 
 class PredictRequest(BaseModel):
-    sepal_length: float
-    sepal_width: float
-    petal_length: float
-    petal_width: float
+    alcohol: float
+    malic_acid: float
+    ash: float
+    alcalinity_of_ash: float
+    magnesium: float
+    total_phenols: float
+    flavanoids: float
+    nonflavanoid_phenols: float
+    proanthocyanins: float
+    color_intensity: float
+    hue: float
+    od280_od315_of_diluted_wines: float
+    proline: float
 
 
 class PredictResponse(BaseModel):
@@ -48,10 +57,19 @@ def predict(request: PredictRequest):
         raise HTTPException(status_code=503, detail="Model not loaded")
 
     features = np.array([[
-        request.sepal_length,
-        request.sepal_width,
-        request.petal_length,
-        request.petal_width,
+        request.alcohol,
+        request.malic_acid,
+        request.ash,
+        request.alcalinity_of_ash,
+        request.magnesium,
+        request.total_phenols,
+        request.flavanoids,
+        request.nonflavanoid_phenols,
+        request.proanthocyanins,
+        request.color_intensity,
+        request.hue,
+        request.od280_od315_of_diluted_wines,
+        request.proline,
     ]])
 
     pred_index = int(model.predict(features)[0])
