@@ -6,6 +6,10 @@ on:
       - 'feature/*'
       - develop
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   train:
     name: Install & Train
