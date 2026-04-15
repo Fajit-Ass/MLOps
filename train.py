@@ -1,6 +1,6 @@
 """
 Script d'entraînement — Dataset Iris (classification multi-classe)
-Produit : model/model.pkl
+Produit : model/model.pkl, model/metrics.json
 """
 
 import os
